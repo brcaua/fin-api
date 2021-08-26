@@ -6,6 +6,9 @@ app.use(express.json());
 
 const costumers = [];
 
+/*
+  app.use(verifyIfExistsAccountCPF) é uma outra maneira de usar middleware
+*/
 function verifyIfExistsAccountCPF(request, response, next) {
   const { cpf } = request.headers;
   const costumer = costumers.find((costumer) => costumer.cpf === cpf);
@@ -51,10 +54,6 @@ app.post("/account", (request, response) => {
   return response.status(201).send();
 });
 
-/*
-  app.use(verifyIfExistsAccountCPF) é uma outra maneira de usar middleware
-*/
-
 app.get("/statement", verifyIfExistsAccountCPF, (request, response) => {
   const { costumer } = request;
   return response.json(costumer.statement);
@@ -67,7 +66,7 @@ app.post("/deposit", verifyIfExistsAccountCPF, (request, response) => {
   const statementOperation = {
     description,
     amount,
-    createdAt: new Date(),
+    created_at: new Date(),
     type: "credit",
   };
 
@@ -101,15 +100,13 @@ app.get("/statement/date", verifyIfExistsAccountCPF, (request, response) => {
   const { costumer } = request;
   const { date } = request.query;
 
-  console.log(date);
-
   const dateFormat = new Date(date + " 00:00");
 
   const statement = costumer.statement.filter((statement) => {
-    statement.createdAt.toDateString() === new Date(dateFormat).toDateString();
+    statement.created_at.toDateString() === new Date(dateFormat).toDateString();
   });
 
-  return response.json(statement);
+  return response.json(costumer.statement);
 });
 
 app.listen(3333);
