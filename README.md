@@ -3,6 +3,8 @@ FinAPI
 </h1>
 
 <p align="center">A finance API build with Node.js.</p>
+<p align="center">In development 🧑‍💻.</p>
+
 
 <p align="center">
   <a href="https://github.com/Rocketseat/youtube-clone-twitter/graphs/contributors">
